@@ -11,6 +11,10 @@ app.directive('chart', function() {
       W = parseInt($attrs.width, 10),
       borderWidth = 30;
 
+      $scope.leftLimit = borderWidth;
+      $scope.bottomLimit = H - borderWidth;
+      $scope.rightLimit = W;
+
       var count = 0;
       this.getX = function(point) {
         if (typeof point.num === 'undefined') {
