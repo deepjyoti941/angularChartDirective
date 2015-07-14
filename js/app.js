@@ -8,10 +8,22 @@ app.directive('chart', function() {
     controller: function($scope, $element, $attrs) {
 
       var H = parseInt($attrs.height, 10),
+      W = parseInt($attrs.width, 10),
       borderWidth = 30;
 
-      var highest = 0;
+      var count = 0;
+      this.getX = function(point) {
+        if (typeof point.num === 'undefined') {
+          point.num = count++;
+          $scope.$broadcast('new-width');
+        }
 
+        var adjustment = point.radius + point.strokeWidth - 1;
+        var widthSpacer = (W - borderWidth - adjustment) / (count-1);
+        return borderWidth + widthSpacer*point.num;
+      };
+
+      var highest = 0;
       this.getY = function(point) {
         if (point.d > highest) {
           highest = point.d;
@@ -23,7 +35,6 @@ app.directive('chart', function() {
 
         return H - borderWidth - point.d*heightSpacer;
       };
-
     }
   };
 });
@@ -35,18 +46,24 @@ app.directive('datapoint', function() {
     scope: {
       d: '@'
     },
-    template: '<circle cx="20" ng-attr-cy="{{cy}}" ng-attr-r="{{radius}}" ng-attr-stroke-width="{{strokeWidth}}" fill="#ffffff" stroke="#5B90BF"/>',
+    template: '<circle ng-attr-cx="{{cx}}" ng-attr-cy="{{cy}}" ng-attr-r="{{radius}}" ng-attr-stroke-width="{{strokeWidth}}" fill="#ffffff" stroke="#5B90BF"/>',
     link: function(scope, element, attrs, ctrl) {
       scope.d = parseInt(scope.d, 10);
       scope.radius = 4;
       scope.strokeWidth = 3;
 
       setY();
+      setX();
 
       scope.$on('new-highest', setY);
+      scope.$on('new-width', setX);
 
       function setY() {
         scope.cy = ctrl.getY(scope);
+      }
+
+      function setX() {
+        scope.cx = ctrl.getX(scope);
       }
     }
   }
