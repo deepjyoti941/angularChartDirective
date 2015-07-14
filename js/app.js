@@ -39,6 +39,11 @@ app.directive('chart', function() {
 
         return H - borderWidth - point.d*heightSpacer;
       };
+
+      $scope.points = [];
+      this.addPoint = function(point) {
+        $scope.points.push(point);
+      }
     }
   };
 });
@@ -48,13 +53,16 @@ app.directive('datapoint', function() {
     replace: true,
     require: '^chart',
     scope: {
-      d: '@'
+      d: '@',
+      label: '@'
     },
     template: '<circle ng-attr-cx="{{cx}}" ng-attr-cy="{{cy}}" ng-attr-r="{{radius}}" ng-attr-stroke-width="{{strokeWidth}}" fill="#ffffff" stroke="#5B90BF"/>',
     link: function(scope, element, attrs, ctrl) {
       scope.d = parseInt(scope.d, 10);
       scope.radius = 4;
       scope.strokeWidth = 3;
+
+      ctrl.addPoint(scope);
 
       setY();
       setX();
