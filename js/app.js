@@ -69,12 +69,12 @@ app.directive('datapoint', function() {
       d: '@',
       label: '@'
     },
-    template: '<circle ng-attr-cx="{{cx}}" ng-attr-cy="{{cy}}" ng-attr-r="{{radius}}" ng-attr-stroke-width="{{strokeWidth}}" fill="#ffffff" stroke="#5B90BF"/>',
+    template: '<circle ng-attr-cx="{{cx}}" ng-attr-cy="{{cy}}" ng-attr-r="{{radius}}" ng-attr-stroke-width="{{strokeWidth}}" fill="#ffffff" stroke="{{stroke}}"/>',
     link: function(scope, element, attrs, ctrl) {
       scope.d = parseInt(scope.d, 10);
       scope.radius = 4;
       scope.strokeWidth = 3;
-
+      scope.stroke = '#5B90BF';
       ctrl.addPoint(scope);
 
       setY();

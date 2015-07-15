@@ -1,5 +1,16 @@
 <svg>
 
+  <g class='lines'>
+    <line ng-repeat='point in points track by $index'
+    ng-attr-stroke-width='{{point.strokeWidth}}'
+    ng-attr-stroke='{{point.stroke}}'
+    ng-attr-x1='{{point.cx}}'
+    ng-attr-y1='{{point.cy}}'
+    ng-attr-x2='{{points[$index - 1] ? points[$index - 1].cx : point.cx }}'
+    ng-attr-y2='{{points[$index - 1] ? points[$index - 1].cy : point.cy }}'
+    />
+  </g>
+
   <g class='left-ticks'>
     <line class='border'
     ng-repeat='tick in ticks'
@@ -9,7 +20,7 @@
     ng-attr-y2='{{tick.value}}'/>
 
     <text class='label side-label' ng-repeat='tick in ticks' ng-attr-x='{{leftLimit - 7}}' ng-attr-y='{{height - tick.value -21}}'>
-    {{ tick.text }}
+      {{ tick.text }}
     </text>
   </g>
 
