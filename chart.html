@@ -1,4 +1,18 @@
 <svg>
+
+  <g class='left-ticks'>
+    <line class='border'
+    ng-repeat='tick in ticks'
+    ng-attr-x1='{{leftLimit}}'
+    ng-attr-y1='{{tick.value}}'
+    ng-attr-x2='{{leftLimit - 5}}'
+    ng-attr-y2='{{tick.value}}'/>
+
+    <text class='label side-label' ng-repeat='tick in ticks' ng-attr-x='{{leftLimit - 7}}' ng-attr-y='{{height - tick.value -21}}'>
+    {{ tick.text }}
+    </text>
+  </g>
+
   <g class='bottom-ticks'>
     <line class='border'
     ng-repeat='point in points'

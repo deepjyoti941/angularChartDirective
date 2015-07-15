@@ -9,8 +9,10 @@ app.directive('chart', function() {
 
       var H = parseInt($attrs.height, 10),
       W = parseInt($attrs.width, 10),
-      borderWidth = 30;
+      borderWidth = 30,
+      numberOfTicks = 6;
 
+      $scope.height = H;
       $scope.leftLimit = borderWidth;
       $scope.bottomLimit = H - borderWidth;
       $scope.rightLimit = W;
@@ -36,6 +38,17 @@ app.directive('chart', function() {
 
         var adjustment = point.radius + point.strokeWidth - 1;
         var heightSpacer = (H - borderWidth - adjustment) / highest;
+
+        $scope.ticks = [];
+        var interval = highest / (numberOfTicks - 1);
+        for(var i = 0; i < numberOfTicks; i++) {
+          $scope.ticks.push({
+            text: interval * i,
+            value: interval * i * heightSpacer + adjustment
+          })
+        }
+
+
 
         return H - borderWidth - point.d*heightSpacer;
       };
